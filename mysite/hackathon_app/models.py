@@ -19,11 +19,17 @@ TYPE_CHOICES = (
 
 )
 
+ROLE_CHOICES = (
+    ('teacher', 'teacher'),
+    ('student', 'student'),
+)
+
 
 class UserProfile(AbstractUser):
     full_name = models.CharField(max_length=128)
     email = models.EmailField(unique=True)
     phone = PhoneNumberField(null=True, blank=True, region='KG')
+    role = models.CharField(max_length=16, choices=ROLE_CHOICES)
 
     def __str__(self):
         return f'{self.username}'
@@ -39,7 +45,7 @@ class Category(models.Model):
 class Course(models.Model):
     course_name = models.CharField(max_length=64)
     description = models.TextField()
-    category = ManyToManyField(Category)
+    category = ManyToManyField(Category, related_name='category_courses')
     level = models.CharField(max_length=32, choices=LEVEL_CHOICES)
     price = models.PositiveSmallIntegerField()
     video = models.FileField()
@@ -52,7 +58,7 @@ class Course(models.Model):
 
 
 class Lesson(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_lessons')
     title = models.CharField(max_length=32)
     video_url = models.URLField()
     content = models.TextField()
@@ -91,7 +97,7 @@ class Exam(models.Model):
 
 
 class Question(models.Model):
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='exam_questions')
     question = models.TextField()
     true_answer = models.BooleanField(default=False)
 

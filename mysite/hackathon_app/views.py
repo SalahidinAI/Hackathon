@@ -52,10 +52,16 @@ class UserProfileAPIView(generics.ListAPIView):
     serializer_class = UserProfileListSerializer
 
 
+class UserProfileDetailAPIView(generics.RetrieveAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileListSerializer
+    # permission_classes = [UserEdit] # error
+
+
 class UserProfileEditAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileListSerializer
-    permission_classes = [UserEdit]
+    # permission_classes = [UserEdit] # error
 
 
 class CategoryListAPIView(generics.ListAPIView):
@@ -66,29 +72,127 @@ class CategoryListAPIView(generics.ListAPIView):
     max_page_size = 10
 
 
-class CourseAPIView(generics.ListAPIView):
+class CategoryCreateAPIView(generics.CreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [IsTeacher]
+
+
+class CategoryDetailAPIView(generics.RetrieveAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategoryDetailSerializer
+
+
+class CourseCreateAPIView(generics.CreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    permission_classes = [IsTeacher]
 
 
-class LessonAPIView(generics.ListAPIView):
+class CourseListAPIView(generics.ListAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseListSerializer
+    pagination_class = OneObjectPagination
+    page_size_query_param = 'page_size'
+    max_page_size = 10
+
+
+class CourseDetailAPIView(generics.RetrieveAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseDetailSerializer
+
+
+class CourseEditAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = [IsOwner]
+
+
+class LessonCreateAPIView(generics.CreateAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    permission_classes = [IsTeacher]
 
 
-class AssignmentAPIView(generics.ListAPIView):
+class LessonListAPIView(generics.ListAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonListSerializer
+    pagination_class = OneObjectPagination
+    page_size_query_param = 'page_size'
+    max_page_size = 10
+
+
+class LessonDetailAPIView(generics.RetrieveAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonListSerializer
+
+
+class LessonEditAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+    permission_classes = [IsLessonOwner]
+
+
+class AssignmentCreateAPIView(generics.CreateAPIView):
     queryset = Assignment.objects.all()
     serializer_class = AssignmentSerializer
+    permission_classes = [IsTeacher]
 
 
-class ExamAPIView(generics.ListAPIView):
+class AssignmentListAPIView(generics.ListAPIView):
+    queryset = Assignment.objects.all()
+    serializer_class = AssignmentListSerializer
+    pagination_class = OneObjectPagination
+    page_size_query_param = 'page_size'
+    max_page_size = 10
+
+
+class AssignmentDetailAPIView(generics.RetrieveAPIView):
+    queryset = Assignment.objects.all()
+    serializer_class = AssignmentListSerializer
+
+
+class AssignmentEditAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Assignment.objects.all()
+    serializer_class = AssignmentSerializer
+    permission_classes = [IsAssignmentOwner]
+
+
+class ExamCreateAPIView(generics.CreateAPIView):
     queryset = Exam.objects.all()
     serializer_class = ExamSerializer
+    permission_classes = [IsTeacher]
 
 
-class QuestionAPIView(generics.ListAPIView):
+class ExamListAPIView(generics.ListAPIView):
+    queryset = Exam.objects.all()
+    serializer_class = ExamListSerializer
+    pagination_class = OneObjectPagination
+    page_size_query_param = 'page_size'
+    max_page_size = 10
+
+
+class ExamDetailAPIView(generics.RetrieveAPIView):
+    queryset = Exam.objects.all()
+    serializer_class = ExamDetailSerializer
+
+
+class ExamEditAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Exam.objects.all()
+    serializer_class = ExamSerializer
+    permission_classes = [IsExamOwner]
+
+
+class QuestionEditAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = [IsQuestionOwner]
+
+
+class QuestionCreateAPIView(generics.CreateAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    permission_classes = [IsTeacher]
 
 
 class CertificateAPIView(generics.ListAPIView):
@@ -96,7 +200,14 @@ class CertificateAPIView(generics.ListAPIView):
     serializer_class = CertificateSerializer
 
 
-class ReviewAPIView(generics.ListAPIView):
+class CertificateCreateAPIView(generics.CreateAPIView):
+    queryset = Certificate.objects.all()
+    serializer_class = CertificateSerializer
+    permission_classes = [IsTeacher]
+
+
+class ReviewCreateAPIView(generics.CreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [IsStudent]
 
