@@ -22,8 +22,8 @@ media/
 staticfiles/
 
 # Базы данных
-*.sqlite3
-*.db
+#*.sqlite3
+#*.db
 
 # Migrations (если хочешь не отслеживать)
 **/migrations/*

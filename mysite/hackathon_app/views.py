@@ -99,6 +99,10 @@ class CourseListAPIView(generics.ListAPIView):
     pagination_class = OneObjectPagination
     page_size_query_param = 'page_size'
     max_page_size = 10
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['category', 'level']
+    search_fields = ['course_name']
+    ordering_fields = ['course_name']
 
 
 class CourseDetailAPIView(generics.RetrieveAPIView):
