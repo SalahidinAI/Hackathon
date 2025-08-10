@@ -1,6 +1,26 @@
-# from .models import Product
-# from modeltranslation.translator import TranslationOptions,register
-#
-# @register(Product)
-# class ProductTranslationOptions(TranslationOptions):
-#     fields = ('product_name', 'description')
+from .models import *
+from modeltranslation.translator import TranslationOptions,register
+
+@register(Category)
+class CategoryTranslationOptions(TranslationOptions):
+    fields = ('category_name',)
+
+@register(Course)
+class CourseTranslationOptions(TranslationOptions):
+    fields = ('course_name', 'description')
+
+@register(Lesson)
+class LessonTranslationOptions(TranslationOptions):
+    fields = ('title', 'content')
+
+@register(Assignment)
+class AssignmentTranslationOptions(TranslationOptions):
+    fields = ('title', 'description')
+
+@register(Exam)
+class ExamTranslationOptions(TranslationOptions):
+    fields = ('title', 'description')
+
+@register(Question)
+class QuestionTranslationOptions(TranslationOptions):
+    fields = ('question',)

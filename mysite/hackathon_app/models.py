@@ -1,7 +1,6 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from multiselectfield import MultiSelectField
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -21,8 +20,7 @@ TYPE_CHOICES = (
 class UserProfile(AbstractUser):
     full_name = models.CharField(max_length=128)
     email = models.EmailField(unique=True)
-    # types = MultiSelectField(choices=TYPE_CHOICES, max_length=50, max_choices=3)
-    # phone = PhoneNumberField(null=True, blank=True, region='KG')
+    phone = PhoneNumberField(null=True, blank=True, region='KG')
 
 
 class Category(models.Model):
