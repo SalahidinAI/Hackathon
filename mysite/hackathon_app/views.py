@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .paginations import *
 from .permissions import *
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 
 class RegisterView(generics.CreateAPIView):
@@ -55,13 +57,13 @@ class UserProfileAPIView(generics.ListAPIView):
 class UserProfileDetailAPIView(generics.RetrieveAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileListSerializer
-    # permission_classes = [UserEdit] # error
+    permission_classes = [UserEdit]
 
 
 class UserProfileEditAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileListSerializer
-    # permission_classes = [UserEdit] # error
+    permission_classes = [UserEdit]
 
 
 class CategoryListAPIView(generics.ListAPIView):
@@ -70,6 +72,8 @@ class CategoryListAPIView(generics.ListAPIView):
     pagination_class = OneObjectPagination
     page_size_query_param = 'page_size'
     max_page_size = 10
+    filter_backends = [SearchFilter]
+    search_fields = ['category_name']
 
 
 class CategoryCreateAPIView(generics.CreateAPIView):
