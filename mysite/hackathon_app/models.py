@@ -1,19 +1,22 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models import ManyToManyField
 from phonenumber_field.modelfields import PhoneNumberField
-
+from django.utils.translation import gettext_lazy as _
+from multiselectfield import MultiSelectField
 
 LEVEL_CHOICES = (
-    ('beginner', 'beginner'),
-    ('medium', 'medium'),
-    ('advanced', 'advanced'),
+    ('beginner', _('Beginner')),
+    ('medium', _('Medium')),
+    ('advanced', _('Advanced')),
 )
 
 TYPE_CHOICES = (
-    ('text', 'text'),
-    ('test', 'test'),
-    ('file', 'file'),
+    ('text', _('Text')),
+    ('test', _('Test')),
+    ('file', _('File')),
+
 )
 
 
@@ -22,15 +25,21 @@ class UserProfile(AbstractUser):
     email = models.EmailField(unique=True)
     phone = PhoneNumberField(null=True, blank=True, region='KG')
 
+    def __str__(self):
+        return f'{self.username}'
+
 
 class Category(models.Model):
     category_name = models.CharField(max_length=64, unique=True)
+
+    def __str__(self):
+        return f'{self.category_name}'
 
 
 class Course(models.Model):
     course_name = models.CharField(max_length=64)
     description = models.TextField()
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = ManyToManyField(Category)
     level = models.CharField(max_length=32, choices=LEVEL_CHOICES)
     price = models.PositiveSmallIntegerField()
     video = models.FileField()
@@ -38,6 +47,8 @@ class Course(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f'{self.course_name}'
 
 
 class Lesson(models.Model):
@@ -45,6 +56,9 @@ class Lesson(models.Model):
     title = models.CharField(max_length=32)
     video_url = models.URLField()
     content = models.TextField()
+
+    def __str__(self):
+        return f'{self.title}'
 
 
 class Assignment(models.Model):
@@ -56,6 +70,9 @@ class Assignment(models.Model):
     assignment_type = models.CharField(max_length=32, choices=TYPE_CHOICES)
     submitted_by = models.CharField(max_length=64)
     is_active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.title}'
 
 
 class Exam(models.Model):
@@ -69,11 +86,17 @@ class Exam(models.Model):
     ])
     is_active = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f'{self.title}'
+
 
 class Question(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     question = models.TextField()
     true_answer = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.exam}'
 
 
 class Certificate(models.Model):
@@ -81,6 +104,9 @@ class Certificate(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     issued_at = models.DateTimeField()
     certificate_url = models.URLField()
+
+    def __str__(self):
+        return f'{self.student} > {self.course}'
 
 
 class Review(models.Model):
@@ -90,3 +116,6 @@ class Review(models.Model):
         MinValueValidator(1), MaxValueValidator(5)
     ])
     comment = models.TextField()
+
+    def __str__(self):
+        return f'{self.user} > {self.course}'

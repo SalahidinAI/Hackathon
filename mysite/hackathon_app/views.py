@@ -3,6 +3,8 @@ from .serializers import *
 from rest_framework import viewsets, generics, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
+from .paginations import *
+from .permissions import *
 
 
 class RegisterView(generics.CreateAPIView):
@@ -47,52 +49,54 @@ class LogoutView(generics.GenericAPIView):
 
 class UserProfileAPIView(generics.ListAPIView):
     queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
-    # pagination_class = GenrePagination
-    # page_size_query_param = 'page_size'
-    # max_page_size = 1000
+    serializer_class = UserProfileListSerializer
 
 
-# class APIView(generics.ListAPIView):
-#     queryset = .objects.all()
-#     serializer_class = Serializer
-#
-#
-# class APIView(generics.ListAPIView):
-#     queryset = .objects.all()
-#     serializer_class = Serializer
-#
-#
-# class APIView(generics.ListAPIView):
-#     queryset = .objects.all()
-#     serializer_class = Serializer
-#
-#
-# class APIView(generics.ListAPIView):
-#     queryset = .objects.all()
-#     serializer_class = Serializer
-#
-#
-# class APIView(generics.ListAPIView):
-#     queryset = .objects.all()
-#     serializer_class = Serializer
-#
-#
-# class APIView(generics.ListAPIView):
-#     queryset = .objects.all()
-#     serializer_class = Serializer
-#
-#
-# class APIView(generics.ListAPIView):
-#     queryset = .objects.all()
-#     serializer_class = Serializer
-#
-#
-# class APIView(generics.ListAPIView):
-#     queryset = .objects.all()
-#     serializer_class = Serializer
-#
-#
-# class APIView(generics.ListAPIView):
-#     queryset = .objects.all()
-#     serializer_class = Serializer
+class UserProfileEditAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileListSerializer
+    permission_classes = [UserEdit]
+
+
+class CategoryListAPIView(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    pagination_class = OneObjectPagination
+    page_size_query_param = 'page_size'
+    max_page_size = 10
+
+
+class CourseAPIView(generics.ListAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+
+
+class LessonAPIView(generics.ListAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+
+
+class AssignmentAPIView(generics.ListAPIView):
+    queryset = Assignment.objects.all()
+    serializer_class = AssignmentSerializer
+
+
+class ExamAPIView(generics.ListAPIView):
+    queryset = Exam.objects.all()
+    serializer_class = ExamSerializer
+
+
+class QuestionAPIView(generics.ListAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+
+
+class CertificateAPIView(generics.ListAPIView):
+    queryset = Certificate.objects.all()
+    serializer_class = CertificateSerializer
+
+
+class ReviewAPIView(generics.ListAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+

@@ -1,4 +1,4 @@
-# from rest_framework.pagination import PageNumberPagination
-#
-# class GenrePagination(PageNumberPagination):
-#     page_size = 2
+from rest_framework.pagination import PageNumberPagination
+
+class OneObjectPagination(PageNumberPagination):
+    page_size = 1
