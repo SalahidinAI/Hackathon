@@ -128,6 +128,10 @@ class LessonListAPIView(generics.ListAPIView):
     pagination_class = OneObjectPagination
     page_size_query_param = 'page_size'
     max_page_size = 10
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['course']
+    search_fields = ['title']
+    ordering_fields = ['title']
 
 
 class LessonDetailAPIView(generics.RetrieveAPIView):
@@ -153,6 +157,10 @@ class AssignmentListAPIView(generics.ListAPIView):
     pagination_class = OneObjectPagination
     page_size_query_param = 'page_size'
     max_page_size = 10
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['lesson', 'level']
+    search_fields = ['title']
+    ordering_fields = ['title']
 
 
 class AssignmentDetailAPIView(generics.RetrieveAPIView):
@@ -178,6 +186,10 @@ class ExamListAPIView(generics.ListAPIView):
     pagination_class = OneObjectPagination
     page_size_query_param = 'page_size'
     max_page_size = 10
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['course', 'level']
+    search_fields = ['title']
+    ordering_fields = ['title']
 
 
 class ExamDetailAPIView(generics.RetrieveAPIView):
